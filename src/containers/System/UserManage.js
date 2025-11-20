@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss'
-import { getAllUsers, createNewUserService } from '../../services/userService'
+import { getAllUsers, createNewUserService, deleteUserService } from '../../services/userService'
 import ModalUser from './ModalUser';
+import { emitter } from '../../utils/emitter'
+
 class UserManage extends Component {
 
     constructor(props) {
@@ -53,12 +55,28 @@ class UserManage extends Component {
                 console.log('check data child: ', data)
                 await this.getAllUserFromReact()
                 this.toggleUserModal()
-                data = {}
+                emitter.emit('EVENT_CLEAR_MODAL_DATA')
             }
         } catch (error) {
             console.log(error)
         }
 
+    }
+
+    handleDeleteUser = async (user) => {
+        console.log('delete user ', user)
+        try {
+            let response = await deleteUserService(user.id)
+            if (response && response.errCode === 0) {
+                console.log(response)
+                await this.getAllUserFromReact()
+            }
+            else {
+                alert(response.errMessage)
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     /** Life cycle
@@ -110,7 +128,6 @@ class UserManage extends Component {
                                 <th>Actions</th>
                             </tr>
                             {arrUsers && arrUsers.map((item, index) => {
-                                console.log('check item: ', item)
                                 return (
                                     <tr key={index}>
                                         <td>{item.email}</td>
@@ -122,7 +139,7 @@ class UserManage extends Component {
                                         <td>{this.switchRole(item.roleId)}</td>
                                         <td className='table-btn'>
                                             <button className='btn-edit'><i className="fas fa-edit"></i></button>
-                                            <button className='btn-delete'><i className="fas fa-trash"></i></button>
+                                            <button className='btn-delete' onClick={() => this.handleDeleteUser(item)}><i className="fas fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 )
