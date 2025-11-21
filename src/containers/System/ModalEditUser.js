@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { emitter } from '../../utils/emitter'
+import _, { values } from 'lodash'
 
-class ModalUser extends Component {
+class ModelEditUser extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
+            id: '',
             email: '',
             password: '',
             firstName: '',
@@ -19,25 +20,35 @@ class ModalUser extends Component {
             roleId: '1',
         }
 
-        this.listenToEmitter()
-    }
+        this.genderOptionsOrigin = [
+            { genderId: '1', genderValue: 'Male' },
+            { genderId: '0', genderValue: 'Female' }
+        ];
 
-    listenToEmitter = () => {
-        emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
-            this.setState({
-                email: '',
-                password: '',
-                firstName: '',
-                lastName: '',
-                address: '',
-                phoneNumber: '',
-                gender: '1',
-                roleId: '1',
-            })
-        })
+        this.arrRole = [
+            { roleId: '1', roleValue: 'Admin' },
+            { roleId: '2', roleValue: 'Doctor' },
+            { roleId: '3', roleValue: 'Patient' }
+        ]
     }
 
     componentDidMount() {
+        let user = this.props.currentUser
+
+        if (user && !_.isEmpty(user)) {
+            this.setState({
+                id: user.id,
+                email: user.email,
+                password: 'hardcore',
+                firstName: user.firstName,
+                lastName: user.lastName,
+                address: user.address,
+                phoneNumber: user.phoneNumber,
+                gender: user.gender ? '1' : '0',
+                roleId: user.roleId,
+            })
+        }
+        console.log('check user dismount edit modal 2 ', user)
     }
 
     toggle = () => {
@@ -45,6 +56,9 @@ class ModalUser extends Component {
     }
 
     handleOnChangeInput = (event, id) => {
+        if (event) {
+            event.preventDefault()
+        }
         // bad code
         /**
          * this.state = {
@@ -65,12 +79,23 @@ class ModalUser extends Component {
         // console.log(event.target.value, id)
 
         // good code
-        let copyState = { ...this.state }
-        //console.log('copystate: ', copyState)
-        copyState[id] = event.target.value
-        this.setState({
-            ...copyState
-        })
+        // console.log('id : ', id)
+        // console.log('state 1: ', this.state)
+        // let copyState = { ...this.state }
+        // console.log('copystate: ', copyState)
+        // copyState[id] = event.target.value
+        // console.log('event target: ', event.target.value)
+        // console.log('copystate id: ', copyState[id])
+        // console.log('copystate 2: ', copyState)
+        // this.setState({
+        //     ...copyState
+        // })
+        // console.log('state 2: ', this.state)
+        const value = event.target.value;
+        this.setState(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
     }
 
     checkValidateInput = () => {
@@ -86,12 +111,49 @@ class ModalUser extends Component {
         return isValid
     }
 
-    handleAddNewUser = () => {
+    handleSaveUser = () => {
         let isValid = this.checkValidateInput()
         if (isValid) {
-            // call api create modal
-            this.props.createNewUser(this.state)
+            // call api edit modal
+            this.props.editUser(this.state)
         }
+    }
+
+
+
+    arrRoleOrderBy = (arrRoleOrigin, targetRoleId) => {
+        const findRoleId = arrRoleOrigin.find(role => role.roleId === targetRoleId)
+        const remainingRoles = arrRoleOrigin.filter(role => role.roleId !== targetRoleId)
+        let sortedRoles = []
+        if (findRoleId) {
+            sortedRoles = [findRoleId, ...remainingRoles]
+        }
+        else {
+            sortedRoles = arrRoleOrigin
+        }
+
+        return sortedRoles
+    }
+
+    getSortedGenderOptions = (currentGenderId) => {
+        let sortedOptions = []
+
+        if (currentGenderId === '0') {
+            sortedOptions = [
+                { genderId: '0', genderValue: 'Female' },
+                { genderId: '1', genderValue: 'Male' }
+            ]
+        }
+        else if (currentGenderId === '1') {
+            sortedOptions = [
+                { genderId: '1', genderValue: 'Male' },
+                { genderId: '0', genderValue: 'Female' }
+            ]
+        } else {
+            // Trường hợp mặc định
+            sortedOptions = this.genderOptionsOrigin;
+        }
+        return sortedOptions;
     }
 
     render() {
@@ -102,7 +164,7 @@ class ModalUser extends Component {
                 size='lg'
                 centered
                 className='modal-user-container'>
-                <ModalHeader toggle={() => { this.toggle() }}>Create a new user</ModalHeader>
+                <ModalHeader toggle={() => { this.toggle() }}>Edit user</ModalHeader>
                 <ModalBody>
                     <div className='modal-user-body'>
                         <div className='input-container'>
@@ -110,12 +172,15 @@ class ModalUser extends Component {
                             <input
                                 type='text'
                                 onChange={(event) => { this.handleOnChangeInput(event, "email") }}
-                                value={this.state.email} />
+                                value={this.state.email}
+                                disabled
+                            />
                         </div>
                         <div className='input-container'>
                             <label>Password</label>
                             <input type='password' onChange={(event) => { this.handleOnChangeInput(event, "password") }}
                                 value={this.state.password}
+                                disabled
                             />
                         </div>
                         <div className='input-container'>
@@ -156,9 +221,17 @@ class ModalUser extends Component {
                                 name="gender"
                                 className="form-select"
                                 onChange={(event) => { this.handleOnChangeInput(event, "gender") }}
+                                value={this.state.gender}
                             >
-                                <option value="1">Male</option>
-                                <option value="0">Female</option>
+                                {(() => {
+                                    let getGender = this.state.gender
+                                    const sortedGenderList = this.getSortedGenderOptions(getGender);
+                                    return sortedGenderList && sortedGenderList.map((item) => {
+                                        return <option key={item.genderId} value={item.genderId}>
+                                            {item.genderValue}
+                                        </option>
+                                    })
+                                })()}
                             </select>
                         </div>
                         <div className='input-container'>
@@ -167,17 +240,23 @@ class ModalUser extends Component {
                                 name="roleId"
                                 className="form-select"
                                 onChange={(event) => { this.handleOnChangeInput(event, "roleId") }}
+                                value={this.state.roleId}
                             >
-                                <option value="1">Admin</option>
-                                <option value="2">Doctor</option>
-                                <option value="3">Patient</option>
+                                {(() => {
+                                    const getArrRoleById = this.arrRoleOrderBy(this.arrRole, this.state.roleId)
+                                    return getArrRoleById && getArrRoleById.map((item) => {
+                                        return (
+                                            <option key={item.roleId} value={item.roleId}>{item.roleValue}</option>
+                                        )
+                                    })
+                                })()}
                             </select>
                         </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => { this.handleAddNewUser() }}>
-                        Add new
+                    <Button color="primary" className='px-3' onClick={() => { this.handleSaveUser() }}>
+                        Save changes
                     </Button>{' '}
                     <Button color="secondary" className='px-3' onClick={() => { this.toggle() }}>
                         Close
@@ -198,4 +277,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ModelEditUser);
