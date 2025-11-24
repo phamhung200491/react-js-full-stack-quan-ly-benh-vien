@@ -1,0 +1,88 @@
+.home-header-container {
+    height          : 60px;
+    width           : 100%;
+    padding         : 0 20px;
+    background-color: rgb(223, 240, 240);
+
+
+    .home-header-content {
+        width  : 70%;
+        height : 100%;
+        display: flex;
+        margin : 0 auto;
+
+        .left-content {
+            width      : 20%;
+            display    : flex;
+            align-items: center;
+
+            .header-logo {
+                background     : url('../../assets/logo.svg') center center no-repeat;
+                background-size: 70% auto;
+                height         : 100%;
+                width          : 100%;
+                cursor         : pointer;
+            }
+
+            i {
+                font-size: 25px;
+                color    : grey;
+                cursor   : pointer;
+            }
+        }
+
+        .center-content {
+            width          : 60%;
+            display        : flex;
+            align-items    : center;
+            justify-content: space-between;
+
+            .child-content {
+                // margin         : 0 10px;
+                // cursor         : pointer;
+                // font-size      : 15px;
+                // font-family    : Montserrat, sans-serif !important;
+                // cursor         : pointer;
+                // text-align     : center;
+                // justify-content: center;
+
+                .subs-title {
+                    font-weight: 400px;
+                    font-size  : 12px;
+                }
+            }
+
+            .active-item {
+                border-radius   : 15px;
+                background-color: rgb(240, 183, 77);
+                width           : 60px;
+                height          : 25px;
+                color           : white;
+                align-items     : center;
+            }
+        }
+
+        .right-content {
+            width          : 20%;
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+
+            // .sub-content {
+            //     margin        : 0 10px;
+            //     color         : rgb(30, 224, 224);
+            //     display       : flex;
+            //     flex-direction: column;
+            //     text-align    : center;
+
+            //     i {
+            //         font-size: 20px;
+            //     }
+
+            //     span {
+            //         font-size: 10px;
+            //     }
+            // }
+        }
+    }
+}
