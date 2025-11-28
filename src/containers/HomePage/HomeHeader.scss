@@ -37,6 +37,7 @@
             display        : flex;
             align-items    : center;
             justify-content: space-between;
+            margin         : 0 15px;
 
             .child-content {
                 // margin         : 0 10px;
@@ -67,7 +68,7 @@
             width          : 20%;
             display        : flex;
             align-items    : center;
-            justify-content: center;
+            justify-content: flex-end;
 
             // .sub-content {
             //     margin        : 0 10px;
@@ -86,12 +87,36 @@
             // }
 
             .support {
-                i {
-                    color: rgb(106, 224, 240);
+                padding-right: 30px;
+                display      : flex;
+                align-items  : center;
+                cursor       : pointer;
 
-                    span {
-                        color: grey;
-                    }
+                i {
+                    color       : rgb(106, 224, 240);
+                    font-size   : 15px;
+                    margin-right: 5px;
+                }
+
+                span {
+                    color: grey;
+                }
+            }
+
+            .language-vi {
+                cursor: pointer;
+
+                &.active {
+                    color: orange;
+                }
+            }
+
+            .language-en {
+                margin: 0 10px;
+                cursor: pointer;
+
+                &.active {
+                    color: blue;
                 }
             }
         }
@@ -108,9 +133,9 @@
     flex-direction     : column;
 
     .content-up {
-        height     : 50%;
-        border     : 1px solid red;
-        padding-top: 20px;
+        height          : 65%;
+        padding-top     : 20px;
+        background-image: linear-gradient(rgba(125, 125, 125, 0.25), rgba(255, 255, 255, 0.1));
 
         .title1 {
             text-align   : center;
@@ -154,8 +179,11 @@
     }
 
     .content-down {
-        height: 50%;
-        border: 1px solid green;
+        height          : 35%;
+        display         : flex;
+        align-items     : flex-end;
+        justify-content : center;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
 
         .options {
             display        : flex;
@@ -165,9 +193,12 @@
 
             .option-child {
                 width     : 100px;
-                border    : 1px solid;
                 text-align: center;
                 cursor    : pointer;
+
+                &:hover {
+                    color: aqua;
+                }
 
                 .icon-child {
                     background   : white;
@@ -227,13 +258,12 @@
                 }
 
                 .text-child {
-                    font-size  : 16px;
+                    font-size  : 17px;
                     font-weight: 500;
-                    color      : white;
 
-                    &:hover {
-                        color: aqua;
-                    }
+                    // &:hover {
+                    //     color: aqua;
+                    // }
                 }
             }
         }
