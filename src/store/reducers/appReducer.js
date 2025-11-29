@@ -1,4 +1,6 @@
+import { act } from 'react';
 import actionTypes from '../actions/actionTypes';
+import { lang } from 'moment';
 
 const initContentOfConfirmModal = {
     isOpen: false,
@@ -30,6 +32,12 @@ const appReducer = (state = initialState, action) => {
                     ...state.contentOfConfirmModal,
                     ...action.contentOfConfirmModal
                 }
+            }
+        case actionTypes.CHANGE_LANGUAGE:
+            console.log('hoidanit check redux :', action)
+            return {
+                ...state,
+                language: action.language
             }
         default:
             return state;
