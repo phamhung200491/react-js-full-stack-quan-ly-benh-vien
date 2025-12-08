@@ -1,17 +1,98 @@
 .section-specialty {
-    height    : 300px;
+    height    : 320px;
     background: #f5f5f5;
     border    : 1px solid red;
-}
 
-.slick-prev {
-    border  : 1px solid green !important;
-    position: relative !important;
-    left    : 0 !important;
-    top     : 100px !important;
-}
+    .specialty-container {
+        margin        : 0 100px;
+        display       : flex;
+        flex-direction: column;
 
-.slick-next {
-    border: 1px solid red !important;
-    right : 0 !important;
+        .specialty-header {
+            height       : 60px;
+            padding-top  : 30px;
+            margin-bottom: 30px;
+
+            .title-section {
+                font-size  : 22px;
+                font-weight: 600;
+            }
+
+            .btn-section {
+                float     : right;
+                display   : block;
+                padding   : 10px 15px;
+                border    : none;
+                outline   : none;
+                background: #ebebeb;
+                color     : black;
+                cursor    : pointer;
+
+                &:hover {
+                    background: #f7d800;
+                    color     : #fff;
+                }
+            }
+        }
+
+        .specialty-body {
+
+            .specialty-customize {
+                //border: 1px solid black;
+                padding-right: 10px;
+
+                .bg-image {
+                    background         : url('../../../assets/specialty/new_bookingcare_bg.png');
+                    background-position: center center;
+                    background-repeat  : no-repeat;
+                    background-size    : cover;
+                    background-color   : #eee;
+                    width              : 100%;
+                    height             : 200px;
+                }
+            }
+
+            .slick-prev {
+                // position: relative !important;
+                left            : -10px !important;
+                //top        : 100px !important;
+                background      : #cbc4c4 !important;
+                z-index         : 1000 !important;
+                height          : 48px !important;
+                width           : 44px !important;
+                // font-family  : FontAwesome !important;
+                // color        : red;
+
+                //content      : "\e257" !important;
+                &:hover {
+                    background: #d7d7d7 !important;
+                }
+            }
+
+            .slick-prev,
+            .slick-next {
+                top: 47%;
+            }
+
+            .slick-prev:before,
+            .slick-next:before {
+                //font-family  : slick !important;
+                color    : red !important;
+                font-size: 30px;
+
+                //content    : "\e257" !important;
+            }
+
+            .slick-next {
+                right     : -10px !important;
+                height    : 48px !important;
+                width     : 44px !important;
+                background: #cbc4c4 !important;
+
+                &:hover {
+                    background: #d7d7d7 !important;
+                }
+            }
+        }
+    }
 }
