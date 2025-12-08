@@ -1,51 +1,52 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './Specialty.scss'
+import './MedicalFacility.scss'
 import { FormattedMessage, injectIntl } from 'react-intl';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"
+//import medicalfacilityImg from '../../../assets/medicalfacility/new_bookingcare_bg.png'
 
-class Specialty extends Component {
+class MedicalFacility extends Component {
 
     render() {
         return (
-            <div className='section-share section-specialty'>
+            <div className='section-share section-medical-facility'>
                 <div className='section-container'>
                     <div className='section-header'>
-                        <span className='title-section'>Chuyên khoa phổ biến</span>
+                        <span className='title-section'>Cơ sở y tế</span>
                         <button className='btn-section'>Xem thêm</button>
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
                             <div className='section-customize'>
-                                <div className='bg-image section-specialty' />
-                                <div>Cơ xương khớp 1</div>
+                                <div className='bg-image section-medical-facility' />
+                                <div>Phòng khám Bệnh viện Đại học Y Dược 1</div>
                             </div>
                             <div className='section-customize'>
-                                <div className='bg-image section-specialty' />
-                                <div>Cơ xương khớp 2</div>
+                                <div className='bg-image section-medical-facility' />
+                                <div>Phòng khám Bệnh viện Đại học Y Dược 2</div>
                             </div>
                             <div className='section-customize'>
-                                <div className='bg-image section-specialty' />
-                                <div>Cơ xương khớp 3</div>
+                                <div className='bg-image section-medical-facility' />
+                                <div>Phòng khám Bệnh viện Đại học Y Dược 3</div>
                             </div>
                             <div className='section-customize'>
-                                <div className='bg-image section-specialty' />
-                                <div>Cơ xương khớp 4</div>
+                                <div className='bg-image section-medical-facility' />
+                                <div>Phòng khám Bệnh viện Đại học Y Dược 4</div>
                             </div>
                             <div className='section-customize'>
-                                <div className='bg-image section-specialty' />
-                                <div>Cơ xương khớp 5</div>
+                                <div className='bg-image section-medical-facility' />
+                                <div>Phòng khám Bệnh viện Đại học Y Dược 5</div>
                             </div>
                             <div className='section-customize'>
-                                <div className='bg-image section-specialty' />
-                                <div>Cơ xương khớp 6</div>
+                                <div className='bg-image section-medical-facility' />
+                                <div>Phòng khám Bệnh viện Đại học Y Dược 6</div>
                             </div>
                         </Slider>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 
@@ -64,4 +65,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Specialty));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(MedicalFacility));
