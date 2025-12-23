@@ -55,11 +55,25 @@ class App extends Component {
                             </CustomScrollbars>
                         </div>
 
-                        <ToastContainer
+                        {/* <ToastContainer
                             className="toast-container" toastClassName="toast-item" bodyClassName="toast-item-body"
-                            autoClose={false} hideProgressBar={true} pauseOnHover={false}
+                            autoClose={5000} hideProgressBar={true} pauseOnHover={false}
                             pauseOnFocusLoss={true} closeOnClick={false} draggable={false}
                             closeButton={<CustomToastCloseButton />}
+                        /> */}
+
+                        <ToastContainer
+                            position="top-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="colored"
+                        // transition={Bounce}
                         />
                     </div>
                 </Router>

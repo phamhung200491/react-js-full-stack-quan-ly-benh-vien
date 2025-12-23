@@ -7,6 +7,7 @@ import * as actions from '../../../store/actions'
 import './UserRedux.scss'
 import Lightbox from 'react-image-lightbox'
 import 'react-image-lightbox/style.css'
+import TableManageUser from './TableManageUser';
 
 
 class UserRedux extends Component {
@@ -68,6 +69,21 @@ class UserRedux extends Component {
                 position: arrPosition && arrPosition.length > 0 ? arrPosition[0].key : ''
             })
         }
+
+        if (prevProps.listUsers !== this.props.listUsers) {
+            this.setState({
+                email: '',
+                password: '',
+                firstName: '',
+                lastName: '',
+                phoneNumber: '',
+                address: '',
+                gender: '',
+                role: '',
+                position: '',
+                avatar: '',
+            })
+        }
     }
 
     handleOnChangeImage = (event) => {
@@ -99,9 +115,9 @@ class UserRedux extends Component {
 
     handleSaveUser = () => {
         let isValid = this.checkValidateInput()
-        console.log('isValid ', isValid)
         if (isValid === false) return
 
+        //fire redux action
         this.props.createNewUser({
             email: this.state.email,
             password: this.state.password,
@@ -114,6 +130,7 @@ class UserRedux extends Component {
             roleId: this.state.role,
             positionId: this.state.position
         })
+
         console.log('before submit check state: ', this.state)
     }
 
@@ -121,7 +138,7 @@ class UserRedux extends Component {
         let isValid = true
         let arrCheck =
             ['email', 'password', 'firstName',
-                'lastName', 'phoneNumber', 'address', 'avatar']
+                'lastName', 'phoneNumber', 'address']
 
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
@@ -263,7 +280,7 @@ class UserRedux extends Component {
                                     </div>
 
                                 </div>
-                                <div className='col-12 mt-3'>
+                                <div className='col-12 my-3'>
                                     <button className='btn btn-primary'
                                         onClick={() => this.handleSaveUser()}>
                                         <span className='m-3'>
@@ -271,9 +288,13 @@ class UserRedux extends Component {
                                         </span>
                                     </button>
                                 </div>
+                                <div className='col-12'>
+                                    <TableManageUser />
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     {this.state.isOpen === true &&
                         <Lightbox
                             mainSrc={this.state.previewImgURL}
@@ -292,6 +313,7 @@ const mapStateToProps = state => {
         roleRedux: state.admin.roles,
         positionRedux: state.admin.positions,
         isLoadingGender: state.admin.isLoadingGender,
+        listUsers: state.admin.users,
     };
 };
 
@@ -300,7 +322,7 @@ const mapDispatchToProps = dispatch => {
         getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
-        createNewUser: (data) => dispatch(actions.createNewUser(data))
+        createNewUser: (data) => dispatch(actions.createNewUser(data)),
 
         //  processLogout: () => dispatch(actions.processLogout()),
         //  changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language))
