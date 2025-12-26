@@ -4,18 +4,25 @@ import { connect } from 'react-redux';
 import './TableManageUser.scss'
 import * as actions from '../../../store/actions'
 import UserRedux from './UserRedux';
+import { LANGUAGES } from '../../../utils';
 
 class TableManageUser extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            usersRedux: []
+            usersRedux: [],
+            genderArr: [],
+            roleArr: [],
+            positionArr: [],
         }
     }
 
     componentDidMount() {
         this.props.fetchUserRedux()
+        this.props.getGenderStart()
+        this.props.getRoleStart()
+        this.props.getPositionStart()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -24,11 +31,79 @@ class TableManageUser extends Component {
                 usersRedux: this.props.listUsers
             })
         }
+
+        if (prevProps.genderRedux !== this.props.genderRedux) {
+            let arrGender = this.props.genderRedux
+            this.setState({
+                genderArr: this.props.genderRedux,
+                gender: arrGender && arrGender.length > 0 ? arrGender[0].key : ''
+            })
+        }
+
+        if (prevProps.roleRedux !== this.props.roleRedux) {
+            let arrRole = this.props.roleRedux
+
+            this.setState({
+                roleArr: this.props.roleRedux,
+                role: arrRole && arrRole.length > 0 ? arrRole[0].key : ''
+            })
+        }
+
+        if (prevProps.positionRedux !== this.props.positionRedux) {
+            let arrPosition = this.props.positionRedux
+
+            this.setState({
+                positionArr: this.props.positionRedux,
+                position: arrPosition && arrPosition.length > 0 ? arrPosition[0].key : ''
+            })
+        }
     }
 
     handleDeleteUser = (user) => {
-        console.log('delete user :', user.id)
         this.props.deleteAUser(user.id)
+    }
+
+    handleEditUser = (user) => {
+        this.props.handleEditUserFromParentKey(user)
+    }
+
+    renderSwitchValue = (itemType, itemValue) => {
+        console.log('check item type : ', itemType)
+        let language = this.props.language
+        let genders = this.state.genderArr
+        let roles = this.state.roleArr
+        let positions = this.state.positionArr
+        let valueName = ''
+        switch (itemType) {
+            case 'G':
+                genders && genders.length > 0 &&
+                    genders.map((item, index) => {
+                        if (itemValue === item.key) {
+                            valueName = language === LANGUAGES.VI ? item.valueVi : item.valueEn
+                        }
+                    })
+                break
+
+            case 'R':
+                roles && roles.length > 0 &&
+                    roles.map((item, index) => {
+                        if (itemValue === item.key) {
+                            valueName = language === LANGUAGES.VI ? item.valueVi : item.valueEn
+                        }
+                    })
+                break
+
+            case 'P':
+                positions && positions.length > 0 &&
+                    positions.map((item, index) => {
+                        if (itemValue === item.key) {
+                            valueName = language === LANGUAGES.VI ? item.valueVi : item.valueEn
+                        }
+                    })
+                break
+        }
+
+        return valueName
     }
 
     render() {
@@ -42,15 +117,15 @@ class TableManageUser extends Component {
                     <table>
                         <tbody>
                             <tr>
-                                <th>Email</th>
-                                <th>First name</th>
-                                <th>Last name</th>
-                                <th>Address</th>
-                                <th>Phone number</th>
-                                <th>Gender</th>
-                                <th>Role</th>
-                                <th>Position</th>
-                                <th>Actions</th>
+                                <th><FormattedMessage id="manage-user.email" /></th>
+                                <th><FormattedMessage id="manage-user.first-name" /></th>
+                                <th><FormattedMessage id="manage-user.last-name" /></th>
+                                <th><FormattedMessage id="manage-user.address" /></th>
+                                <th><FormattedMessage id="manage-user.phone-number" /></th>
+                                <th><FormattedMessage id="manage-user.gender" /></th>
+                                <th><FormattedMessage id="manage-user.role" /></th>
+                                <th><FormattedMessage id="manage-user.position" /></th>
+                                <th><FormattedMessage id="manage-user.actions" /></th>
                             </tr>
                             {arrUsers && arrUsers.length > 0 &&
                                 arrUsers.map((item, index) => {
@@ -61,11 +136,13 @@ class TableManageUser extends Component {
                                             <td>{item.lastName}</td>
                                             <td>{item.address}</td>
                                             <td>{item.phoneNumber}</td>
-                                            <td>{item.gender === 'M' ? 'Male' : item.gender === 'F' ? 'Female' : 'None'}</td>
-                                            <td>{item.roleId}</td>
-                                            <td>{item.positionId}</td>
+                                            <td>{this.renderSwitchValue("G", item.gender)}</td>
+                                            <td>{this.renderSwitchValue("R", item.roleId)}</td>
+                                            <td>{this.renderSwitchValue("P", item.positionId)}</td>
                                             <td className='table-btn'>
-                                                <button className='btn-edit'><i className="fas fa-edit"></i></button>
+                                                <button
+                                                    onClick={() => this.handleEditUser(item)}
+                                                    className='btn-edit'><i className="fas fa-edit"></i></button>
                                                 <button
                                                     onClick={() => this.handleDeleteUser(item)}
                                                     className='btn-delete'><i className="fas fa-trash"></i></button>
@@ -84,14 +161,21 @@ class TableManageUser extends Component {
 
 const mapStateToProps = state => {
     return {
-        listUsers: state.admin.users
+        listUsers: state.admin.users,
+        genderRedux: state.admin.genders,
+        roleRedux: state.admin.roles,
+        positionRedux: state.admin.positions,
+        language: state.app.language,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        deleteAUser: (id) => dispatch(actions.deleteAUser(id))
+        deleteAUser: (id) => dispatch(actions.deleteAUser(id)),
+        getGenderStart: () => dispatch(actions.fetchGenderStart()),
+        getRoleStart: () => dispatch(actions.fetchRoleStart()),
+        getPositionStart: () => dispatch(actions.fetchPositionStart()),
     };
 };
 
