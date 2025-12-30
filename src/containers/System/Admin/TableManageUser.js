@@ -68,7 +68,6 @@ class TableManageUser extends Component {
     }
 
     renderSwitchValue = (itemType, itemValue) => {
-        console.log('check item type : ', itemType)
         let language = this.props.language
         let genders = this.state.genderArr
         let roles = this.state.roleArr
