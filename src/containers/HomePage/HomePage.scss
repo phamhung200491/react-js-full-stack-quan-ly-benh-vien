@@ -40,7 +40,9 @@
     }
 }
 
-
+.slick-disabled {
+    display: none !important;
+}
 
 .section-share {
     height: auto;
@@ -124,10 +126,10 @@
                     }
 
                     &.section-out-standing-doctor {
-                        background-image: url('../../assets/out-standing-doctor/kham-tieu-hoa.jpg');
-                        border-radius   : 50%;
-                        width           : 120px;
-                        height          : 120px;
+                        border-radius  : 50%;
+                        width          : 120px;
+                        height         : 120px;
+                        background-size: contain;
                     }
 
                     &.section-handbook {

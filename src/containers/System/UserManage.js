@@ -60,8 +60,6 @@ class UserManage extends Component {
             let response = await createNewUserService(data)
             if (response && response.errCode !== 0) { alert(response.errMessage) }
             else {
-                console.log(`response create user `, response)
-                console.log('check data child: ', data)
                 await this.getAllUserFromReact()
                 this.toggleUserModal()
                 emitter.emit('EVENT_CLEAR_MODAL_DATA')
@@ -73,11 +71,9 @@ class UserManage extends Component {
     }
 
     handleDeleteUser = async (user) => {
-        console.log('delete user ', user)
         try {
             let response = await deleteUserService(user.id)
             if (response && response.errCode === 0) {
-                console.log(response)
                 await this.getAllUserFromReact()
             }
             else {
@@ -89,7 +85,6 @@ class UserManage extends Component {
     }
 
     handleEditUser = async (user) => {
-        console.log('edit user', user)
         this.setState({
             isOpenModalEditUser: true,
             userEdit: user
@@ -97,7 +92,6 @@ class UserManage extends Component {
     }
 
     handleDoEditUser = async (user) => {
-        console.log('ckick save user', user)
         try {
             let res = await editUserService(user)
             if (res && res.errCode === 0) {

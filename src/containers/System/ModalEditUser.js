@@ -48,7 +48,6 @@ class ModelEditUser extends Component {
                 roleId: user.roleId,
             })
         }
-        console.log('check user dismount edit modal 2 ', user)
     }
 
     toggle = () => {

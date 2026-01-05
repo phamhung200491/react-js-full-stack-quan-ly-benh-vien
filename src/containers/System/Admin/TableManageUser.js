@@ -77,7 +77,7 @@ class TableManageUser extends Component {
             case 'G':
                 genders && genders.length > 0 &&
                     genders.map((item, index) => {
-                        if (itemValue === item.key) {
+                        if (itemValue === item.keyMap) {
                             valueName = language === LANGUAGES.VI ? item.valueVi : item.valueEn
                         }
                     })
@@ -86,7 +86,7 @@ class TableManageUser extends Component {
             case 'R':
                 roles && roles.length > 0 &&
                     roles.map((item, index) => {
-                        if (itemValue === item.key) {
+                        if (itemValue === item.keyMap) {
                             valueName = language === LANGUAGES.VI ? item.valueVi : item.valueEn
                         }
                     })
@@ -95,7 +95,7 @@ class TableManageUser extends Component {
             case 'P':
                 positions && positions.length > 0 &&
                     positions.map((item, index) => {
-                        if (itemValue === item.key) {
+                        if (itemValue === item.keyMap) {
                             valueName = language === LANGUAGES.VI ? item.valueVi : item.valueEn
                         }
                     })
@@ -106,8 +106,6 @@ class TableManageUser extends Component {
     }
 
     render() {
-        console.log('check all Users ', this.props.listUsers)
-        console.log('check state ', this.state.usersRedux)
         let arrUsers = this.state.usersRedux
         return (
             <div className="user-container">
@@ -128,6 +126,7 @@ class TableManageUser extends Component {
                             </tr>
                             {arrUsers && arrUsers.length > 0 &&
                                 arrUsers.map((item, index) => {
+                                    console.log('check table user image ', item)
                                     return (
                                         <tr key={index}>
                                             <td>{item.email}</td>

@@ -4,7 +4,8 @@ import {
     getAllUsers,
     createNewUserService,
     editUserService,
-    deleteUserService
+    deleteUserService,
+    getTopDoctorHomeService
 } from '../../services/userService';
 import { toast } from 'react-toastify';
 
@@ -94,7 +95,6 @@ export const createNewUser = (data) => {
     return async (dispatch, getState) => {
         try {
             let res = await createNewUserService(data)
-            console.log('check create user redux: ', res)
             if (res && res.errCode === 0) {
                 toast.success("Create new user succeed !!!")
                 dispatch(saveUserSuccess())
@@ -176,7 +176,6 @@ export const editAUser = (data) => {
     return async (dispatch, getState) => {
         try {
             let res = await editUserService(data)
-            console.log('check edit user redux: ', res)
             if (res && res.errCode === 0) {
                 toast.success("Update the user succeed !!!")
                 dispatch(editUserSuccess())
@@ -199,4 +198,37 @@ export const editUserSuccess = () => ({
 export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_FAILED
 })
+
+export const fetchTopDoctor = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getTopDoctorHomeService('10')
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
+                    dataDoctors: res.data
+                })
+            }
+            else {
+                dispatch({
+                    type: actionTypes.FETCH_TOP_DOCTORS_FAILED,
+                })
+            }
+        } catch (error) {
+            dispatch({
+                type: actionTypes.FETCH_TOP_DOCTORS_FAILED,
+            })
+        }
+    }
+}
+
+export const fetchTopDoctorSuccess = (data) => ({
+    type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
+    data: data
+})
+
+export const fetchTopDoctorFailed = () => ({
+    type: actionTypes.FETCH_TOP_DOCTORS_FAILED
+})
+
 
