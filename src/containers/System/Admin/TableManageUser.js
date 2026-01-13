@@ -6,6 +6,16 @@ import * as actions from '../../../store/actions'
 import UserRedux from './UserRedux';
 import { LANGUAGES } from '../../../utils';
 
+import MarkdownIt from 'markdown-it'
+import MdEditor from 'react-markdown-editor-lite'
+import 'react-markdown-editor-lite/lib/index.css'
+
+const mdParser = new MarkdownIt()
+
+function handleEditorChange({ html, text }) {
+    console.log('handleEditorChange ', html, text)
+}
+
 class TableManageUser extends Component {
 
     constructor(props) {
@@ -111,7 +121,7 @@ class TableManageUser extends Component {
             <div className="user-container">
                 <div className='title text-center'>Manage users with Hung</div>
                 <div className='users-table mt-3 mx-1 mb-5'>
-                    <table>
+                    <table id='TableManagerUser'>
                         <tbody>
                             <tr>
                                 <th><FormattedMessage id="manage-user.email" /></th>
@@ -126,7 +136,6 @@ class TableManageUser extends Component {
                             </tr>
                             {arrUsers && arrUsers.length > 0 &&
                                 arrUsers.map((item, index) => {
-                                    console.log('check table user image ', item)
                                     return (
                                         <tr key={index}>
                                             <td>{item.email}</td>
@@ -151,6 +160,8 @@ class TableManageUser extends Component {
                         </tbody>
                     </table>
                 </div>
+
+                <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
             </div>
         );
     }
