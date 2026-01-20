@@ -5,7 +5,9 @@ import {
     createNewUserService,
     editUserService,
     deleteUserService,
-    getTopDoctorHomeService
+    getTopDoctorHomeService,
+    getAllDoctors,
+    saveDetailDoctorService
 } from '../../services/userService';
 import { toast } from 'react-toastify';
 
@@ -231,4 +233,62 @@ export const fetchTopDoctorFailed = () => ({
     type: actionTypes.FETCH_TOP_DOCTORS_FAILED
 })
 
+export const fetchAllDoctors = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllDoctors()
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
+                    dataDrs: res.data
+                })
+            }
+            else {
+                dispatch({
+                    type: actionTypes.FETCH_ALL_DOCTORS_FAILED,
+                })
+            }
+        } catch (error) {
+            dispatch({
+                type: actionTypes.FETCH_ALL_DOCTORS_FAILED,
+            })
+        }
+    }
+}
+
+export const fetchAllDoctorsSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
+    data: data
+})
+
+export const fetchAllDoctorsFailed = () => ({
+    type: actionTypes.FETCH_ALL_DOCTORS_FAILED
+})
+
+export const saveDetailDoctor = (data) => {
+    return async (dispatch, getState) => {
+        let res = await saveDetailDoctorService(data)
+        try {
+            if (res && res.errCode === 0) {
+                toast.success(res.errMessage)
+
+                dispatch({
+                    type: actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS,
+                })
+            }
+            else {
+                toast.error(res.errMessage)
+
+                dispatch({
+                    type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+                })
+            }
+        } catch (error) {
+            toast.error(res.errMessage)
+            dispatch({
+                type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+            })
+        }
+    }
+}
 
