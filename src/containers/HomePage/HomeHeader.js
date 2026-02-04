@@ -88,48 +88,50 @@ class HomeHeader extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='home-header-banner'>
-                    <div className='content-up'>
-                        <div className='title1'>
-                            <FormattedMessage id="banner.title1" />
+                {this.props.isShowBanner === true &&
+                    <div className='home-header-banner'>
+                        <div className='content-up'>
+                            <div className='title1'>
+                                <FormattedMessage id="banner.title1" />
+                            </div>
+                            <div className='title2'>
+                                <FormattedMessage id="banner.title2" />
+                            </div>
+                            <div className='search'>
+                                <i className="fas fa-search"></i>
+                                <input type='text' placeholder={intl.formatMessage({ id: "banner.find-medial-specialty" })} />
+                            </div>
                         </div>
-                        <div className='title2'>
-                            <FormattedMessage id="banner.title2" />
-                        </div>
-                        <div className='search'>
-                            <i className="fas fa-search"></i>
-                            <input type='text' placeholder={intl.formatMessage({ id: "banner.find-medial-specialty" })} />
+                        <div className='content-down'>
+                            <div className='options'>
+                                <div className='option-child'>
+                                    <div className='icon-child'><i className='icon-1'></i></div>
+                                    <div className='text-child'><FormattedMessage id="banner.specialist-examination" /></div>
+                                </div>
+                                <div className='option-child'>
+                                    <div className='icon-child'><i className='icon-2'></i></div>
+                                    <div className='text-child'><FormattedMessage id="banner.remote-examination" /></div>
+                                </div>
+                                <div className='option-child'>
+                                    <div className='icon-child'><i className='icon-3'></i></div>
+                                    <div className='text-child'><FormattedMessage id="banner.general-examination" /></div>
+                                </div>
+                                <div className='option-child'>
+                                    <div className='icon-child'><i className='icon-4'></i></div>
+                                    <div className='text-child'><FormattedMessage id="banner.medical-tests" /></div>
+                                </div>
+                                <div className='option-child'>
+                                    <div className='icon-child'><i className='icon-5'></i></div>
+                                    <div className='text-child'><FormattedMessage id="banner.mental-health-check-up" /></div>
+                                </div>
+                                <div className='option-child'>
+                                    <div className='icon-child'><i className='icon-6'></i></div>
+                                    <div className='text-child'><FormattedMessage id="banner.dental-examination" /></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className='content-down'>
-                        <div className='options'>
-                            <div className='option-child'>
-                                <div className='icon-child'><i className='icon-1'></i></div>
-                                <div className='text-child'><FormattedMessage id="banner.specialist-examination" /></div>
-                            </div>
-                            <div className='option-child'>
-                                <div className='icon-child'><i className='icon-2'></i></div>
-                                <div className='text-child'><FormattedMessage id="banner.remote-examination" /></div>
-                            </div>
-                            <div className='option-child'>
-                                <div className='icon-child'><i className='icon-3'></i></div>
-                                <div className='text-child'><FormattedMessage id="banner.general-examination" /></div>
-                            </div>
-                            <div className='option-child'>
-                                <div className='icon-child'><i className='icon-4'></i></div>
-                                <div className='text-child'><FormattedMessage id="banner.medical-tests" /></div>
-                            </div>
-                            <div className='option-child'>
-                                <div className='icon-child'><i className='icon-5'></i></div>
-                                <div className='text-child'><FormattedMessage id="banner.mental-health-check-up" /></div>
-                            </div>
-                            <div className='option-child'>
-                                <div className='icon-child'><i className='icon-6'></i></div>
-                                <div className='text-child'><FormattedMessage id="banner.dental-examination" /></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                }
             </React.Fragment>
         );
     }
