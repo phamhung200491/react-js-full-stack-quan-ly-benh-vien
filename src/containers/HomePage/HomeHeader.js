@@ -5,12 +5,19 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { LANGUAGES } from '../../utils';
 
 import { changeLanguageApp } from '../../store/actions/appActions';
+import { withRouter } from 'react-router';
 
 class HomeHeader extends Component {
 
     changeLanguage = (language) => {
         this.props.changeLanguageAppRedux(language)
         //fire redux event : actions
+    }
+
+    returnToHome = () => {
+        if (this.props.history) {
+            this.props.history.push('/home')
+        }
     }
 
     render() {
@@ -23,7 +30,7 @@ class HomeHeader extends Component {
                     <div className='home-header-content'>
                         <div className='left-content'>
                             <i className="fas fa-bars"></i>
-                            <div className='header-logo'>
+                            <div className='header-logo' onClick={() => this.returnToHome()}>
 
                             </div>
                         </div>
@@ -152,4 +159,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));
+export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(HomeHeader)));
